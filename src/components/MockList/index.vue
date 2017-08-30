@@ -3,7 +3,7 @@
         <el-col :span="5">
             <div class="rule-list">
                 <template v-for="(item, index) in rule">
-                    <div class="rule-list-item" @click="onItemClick(item.rules, index)">
+                    <div class="rule-list-item" :class="{active: activeIndex == index}"  @click="onItemClick(item.rules, index)">
                         <div class="rule-switch">
                             <el-switch v-model="item.isActive" on-text="" off-text=""></el-switch>
                             {{item.name}}
@@ -128,6 +128,9 @@ export default {
     background-color: #d3dce6;
     cursor: pointer;
 }
+.rule-list-item.active {
+    background: #d3dce6;
+}
 .rule-op {
     width: 50px;
 }
@@ -143,6 +146,7 @@ export default {
     box-sizing: border-box;
     background: #d3dce6;
 }
+
 .el-icon-plus:hover {
     cursor: pointer;
 }

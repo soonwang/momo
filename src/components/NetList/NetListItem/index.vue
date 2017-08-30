@@ -1,5 +1,6 @@
 <template lang="html">
     <div class="net-item" v-show="isShow" >
+        <div id="J_drag" class="item-drag"></div>
         <el-tabs v-model="activeTabs" type="card">
             <el-tab-pane name="close" disabled>
                 <span slot="label" class="close-sp"><i class="el-icon-circle-close" @click.stop="close"></i></span>
@@ -49,21 +50,18 @@
             </el-tab-pane>
             <el-tab-pane label="Response" name="response">
                 <div v-if="resBody">
-                    <pre>
-                        <code>{{resBody}}</code>
-                    </pre>
+                    <pre v-highlight v-text="resBody"></pre>
                 </div>
                 <div v-else>
                     <a :href="resDownload.ref">{{resDownload.fileName}}</a>
                 </div>
             </el-tab-pane>
         </el-tabs>
-
     </div>
 </template>
 
 <script>
-// import highlight from '../../../directives/highlight'
+import highlight from '../../../directives/highlight'
 export default {
     name: 'net-list-item',
     props: ['item', 'isShow', 'resBody', 'resDownload'],
@@ -93,8 +91,24 @@ export default {
     text-align: left;
     z-index: 99;
     border: 1px solid #eee;
+    border-top: none;
     overflow: auto;
 }
+
+.item-drag {
+    display: inline-block;
+    position: fixed;
+    width: 3px;
+    height: 100%;
+    background: #aaa;
+}
+.item-drag:hover {
+    cursor: ew-resize;
+}
+.net-item .el-tabs.el-tabs--card {
+    margin-left: 3px;
+}
+
 pre {
     overflow: auto;
 }

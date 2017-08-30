@@ -17,14 +17,14 @@
             <el-table-column prop="rule" label="rule" width="100" align="center">
             </el-table-column>
           </el-table>
-          <net-list-item :item="currentRow" :resDownload="resDownload" :res-body="resBody" :isShow="isShowItem" @close="isShowItem=false"></net-list-item>
+          <net-list-item v-drag-width :item="currentRow" :resDownload="resDownload" :res-body="resBody" :isShow="isShowItem" @close="isShowItem=false"></net-list-item>
     </div>
 </template>
 
 <script>
 import NetListItem from './NetListItem/index';
-
-import { mapGetters, mapActions } from 'vuex';
+import dragWidth from '../../directives/drag_width';
+import { mapGetters } from 'vuex';
 export default {
     name: 'net-list',
     components: {
@@ -39,24 +39,14 @@ export default {
         currentRow: {}
       }
     },
-    beforeMount() {
-            this.$http.get('/api/latestLog').then(res => {
-                if(res.status != 200) return;
-                if(Array.isArray(res.data)) {
-                    res.data.forEach(item => this.addNetItem({item}));
-                }
-            })
-    },
     computed: {
         ...mapGetters([
             'NetList'
         ])
     },
     methods: {
-        ...mapActions([
-            'addNetItem'
-        ]),
         handleCurrentChange(row) {
+            if(!row) return;
             this.currentRow = row;
             this.isShowItem = true;
             this.$http.get('/api/fetchBody', {
@@ -78,5 +68,7 @@ export default {
 </script>
 
 <style lang="css">
-
+.mo-net-list .el-table tr:hover {
+    cursor: pointer;
+}
 </style>

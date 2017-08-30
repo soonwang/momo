@@ -3,6 +3,9 @@ export const CLEAN_CONSOLE_LIST = 'CLEAN_CONSOLE_LIST'
 
 export const ADD_NET_ITEM = 'ADD_NET_ITEM'
 export const CLEAN_NET_LIST = 'CLEAN_NET_LIST'
+export const SET_NET_TYPE = 'SET_NET_TYPE'
 
 export const SET_MOCK_LIST = 'SET_MOCK_LIST'
 export const CLEAN_MOCK_LIST = 'CLEAN_MOCK_LIST'
+
+export const SET_SERVER_INFO = 'SET_SERVER_INFO'

@@ -9,6 +9,8 @@ const state = {
     ConsList: [],
     MockList: [],
     NetList: [],
+    NetType: 'all',
+    ServerInfo: {}
 }
 export default new Vuex.Store({
     state,

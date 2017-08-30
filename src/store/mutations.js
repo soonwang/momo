@@ -7,6 +7,9 @@ let mutations = {
     [types.CLEAN_NET_LIST] (state, payload) {
         state.NetList = [];
     },
+    [types.SET_NET_TYPE] (state, payload) {
+        state.NetType = payload.type;
+    },
     [types.SET_MOCK_LIST] (state, payload) {
         state.MockList = payload.item
     },
@@ -19,5 +22,8 @@ let mutations = {
     [types.CLEAN_CONSOLE_LIST] (state, payload) {
         state.ConsList = [];
     },
+    [types.SET_SERVER_INFO] (state, payload) {
+        state.ServerInfo = payload;
+    }
 }
 export default mutations;

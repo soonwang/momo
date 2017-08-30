@@ -4,22 +4,37 @@
       <input v-model="input" class="input-code" placeholder=">输入可执行js代码" @keyup.enter="execute">
   </div>
   <div class="mo-tools">
-      <el-tooltip effect="dark" content="Clear" placement="bottom">
+      <el-tooltip class="f-mr10" effect="dark" content="使用帮助" placement="bottom">
+          <i class="el-icon-information" @click="info"></i>
+      </el-tooltip>
+      <el-tooltip effect="dark" content="清空" placement="bottom">
           <i class="el-icon-delete" @click="clear"></i>
       </el-tooltip>
   </div>
+  <el-dialog class="tips-dialog" :visible.sync="isShowDialog" top="30%" size="tiny">
+      <h3>使用console方法：</h3>
+      <span>1.在url后添加参数</span>
+      <pre>?ws_console=true</pre>
+      <pre>例如：http://www.kaola.com?ws_console=true</pre>
+      <span>2.在页面中自行引入脚本</span>
+      <pre>//{{ServerInfo.ip}}:{{ServerInfo.webPort}}/ws_console.js</pre>
+  </el-dialog>
 </div>
 </template>
 
 <script>
-import {mapActions} from 'vuex'
+import {mapActions, mapGetters} from 'vuex'
 
 export default {
   name: 'mo-header',
   data() {
     return {
+        isShowDialog: false,
         input: ''
     }
+  },
+  computed: {
+      ...mapGetters(['ServerInfo'])
   },
   methods: {
       ...mapActions([
@@ -27,6 +42,9 @@ export default {
       ]),
       clear() {
           this.cleanConsList();
+      },
+      info() {
+          this.isShowDialog = true;
       },
       execute() {
           this.$ws.send({
@@ -40,7 +58,7 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
+<style>
 .mo-header {
     display: flex;
     justify-content: space-between;
@@ -66,5 +84,16 @@ export default {
     padding-right: 20px;
     line-height: 60px;
     color: rgb(191, 203, 217);
+}
+.tips-dialog .el-dialog__header {
+    padding: 10px 10px 0;
+}
+.tips-dialog pre {
+    background: #eee;
+    padding: 10px;
+    border-radius: 8px;
+}
+.f-mr10 {
+    margin-right: 10px;
 }
 </style>

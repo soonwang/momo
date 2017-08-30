@@ -11,9 +11,16 @@ export const addNetItem = ({commit}, item) => {
 export const cleanNetList = ({commit}) => {
     commit(types.CLEAN_NET_LIST)
 }
+export const setNetType = ({commit}, type) => {
+    commit(types.SET_NET_TYPE, type)
+}
 export const setMockList = ({commit}, item) => {
     commit(types.SET_MOCK_LIST, item)
 }
 export const cleanMockList = ({commit}) => {
     commit(types.CLEAN_MOCK_LIST)
+}
+
+export const setServerInfo = ({commit}, item) => {
+    commit(types.SET_SERVER_INFO, item)
 }

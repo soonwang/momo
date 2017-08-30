@@ -8,11 +8,25 @@
 </template>
 
 <script>
-import MoSidebar from './sidebar/index.vue'
+import MoSidebar from './sidebar/index.vue';
+import {mapActions} from 'vuex';
 export default {
   name: 'layout',
   components: {
       MoSidebar: MoSidebar
+  },
+  beforeMount() {
+      this.$http.get('/api/latestLog').then(res => {
+          if(res.status != 200) return;
+          if(Array.isArray(res.data)) {
+              res.data.forEach(item => this.addNetItem({item}));
+          }
+      })
+  },
+  methods: {
+      ...mapActions([
+          'addNetItem'
+      ]),
   },
   data () {
     return {

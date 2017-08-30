@@ -1,14 +1,15 @@
 <template>
 <div class="mo-header">
   <el-menu theme="dark" :default-active="activeIndex" mode="horizontal" @select="handleSelect">
-    <el-menu-item index="1">All</el-menu-item>
-    <el-menu-item index="2">XHR</el-menu-item>
-    <el-menu-item index="3">JS</el-menu-item>
-    <el-menu-item index="4">CSS</el-menu-item>
-    <el-menu-item index="5">Img</el-menu-item>
+    <el-menu-item index="all">All</el-menu-item>
+    <el-menu-item index="xhr">XHR</el-menu-item>
+    <el-menu-item index="javascript">JS</el-menu-item>
+    <el-menu-item index="css">CSS</el-menu-item>
+    <el-menu-item index="image">Img</el-menu-item>
+    <el-menu-item index="other">Other</el-menu-item>
   </el-menu>
   <div class="mo-tools">
-      <el-tooltip effect="dark" content="Clear" placement="bottom">
+      <el-tooltip effect="dark" content="清空" placement="bottom">
           <i class="el-icon-delete" @click="clear"></i>
       </el-tooltip>
   </div>
@@ -21,19 +22,22 @@ export default {
   name: 'mo-header',
   data() {
     return {
-        activeIndex: '1'
+        activeIndex: 'all'
     }
   },
   methods: {
       ...mapActions([
-          'cleanNetList'
+          'cleanNetList',
+          'setNetType'
       ]),
       handleSelect(key, keyPath) {
-          console.log(key, keyPath)
+          this.setNetType({type: key});
       },
       clear() {
           this.cleanNetList();
-          this.$ws.send({type: 'cleanBody'});
+          this.$http.get('/api/cleanNet').then(res => {
+              console.log(res);
+          })
       }
   }
 }

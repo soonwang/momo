@@ -105,9 +105,9 @@
   return global.env = EnvDetect.detect()
 }(window.wsConsole = window.wsConsole || {});
 (function(window) {
-    function Ws(callback, port) {
+    function Ws(callback, host, port) {
         port = port || 8003;
-        var ws = new WebSocket('ws://127.0.0.1:' + port);
+        var ws = new WebSocket('ws:' + host + ':' + port);
         ws.onopen = function() {
             console.log('connected.');
         };
@@ -115,8 +115,8 @@
             console.log('closed');
         };
         ws.onerror = function(error) {
-            console.log('error');
-            ws = new WebSocket('ws://127.0.0.1:' + port);
+            console.log(error);
+            // ws = new WebSocket('ws://127.0.0.1:' + port);
         };
         ws.onmessage = function(event) {
             typeof callback === 'function' && callback(event);
@@ -134,7 +134,10 @@
             console.log(eval(json.data));
         }
     }
-    var ws = new Ws(onMessage);
+    var myScript = document.scripts[0] || document.getElementsByTagName('script')[0];
+    var host = myScript.getAttribute('src').split(':').shift();
+    var port = myScript.getAttribute('wsport');
+    var ws = new Ws(onMessage, '127.0.0.1', port);
     var fn = {
         watch: function(func, before, after) {
             return function() {
