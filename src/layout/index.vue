@@ -21,11 +21,16 @@ export default {
           if(Array.isArray(res.data)) {
               res.data.forEach(item => this.addNetItem({item}));
           }
+      });
+      this.$http.get('/api/getRule').then(res => {
+          if(res.status != 200) return;
+          this.setMockList({data: res.data});
       })
   },
   methods: {
       ...mapActions([
-          'addNetItem'
+          'addNetItem',
+          'setMockList'
       ]),
   },
   data () {

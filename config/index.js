@@ -30,6 +30,9 @@ module.exports = {
     proxyTable: {
         '/api': {
             target: 'http://127.0.0.1:8002'
+        },
+        '/ws_console': {
+            target: 'http://127.0.0.1:8002'
         }
     },
     // CSS Sourcemaps off by default because relative paths are "buggy"

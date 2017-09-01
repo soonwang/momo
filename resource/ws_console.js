@@ -104,40 +104,36 @@
 
   return global.env = EnvDetect.detect()
 }(window.wsConsole = window.wsConsole || {});
-(function(window) {
-    function Ws(callback, host, port) {
-        port = port || 8003;
-        var ws = new WebSocket('ws:' + host + ':' + port);
-        ws.onopen = function() {
-            console.log('connected.');
-        };
-        ws.onclose = function() {
-            console.log('closed');
-        };
-        ws.onerror = function(error) {
-            console.log(error);
-            // ws = new WebSocket('ws://127.0.0.1:' + port);
-        };
-        ws.onmessage = function(event) {
-            typeof callback === 'function' && callback(event);
-        };
+(function(window, io) {
+    function Ws(callback, src) {
+        var ws = io(src, {
+            path: '/ws_console'
+        });
+        ws.on('connect', function() {
+            console.log('connect');
+        });
+        ws.on('error', function() {
+            console.log('error');
+        });
+        ws.on('connect_error', function() {
+            console.log('connect_error');
+        });
+        ws.on('ws_console_server', function(data) {
+            typeof callback === 'function' && callback(data);
+        })
         this.ws = ws;
     }
-    Ws.prototype.send = function(obj, errorHandler) {
-        this.ws.send(JSON.stringify(obj), function(err) {
-            errorHandler(err);
-        })
+    Ws.prototype.send = function(obj) {
+        this.ws.emit('ws_console', obj)
     }
-    function onMessage(event) {
-        var json = JSON.parse(event.data);
-        if(json.flag === 'ws_console_server' && json.type==='exec') {
+    function onMessage(json) {
+        if(json.type === 'exec') {
             console.log(eval(json.data));
         }
     }
     var myScript = document.scripts[0] || document.getElementsByTagName('script')[0];
-    var host = myScript.getAttribute('src').split(':').shift();
-    var port = myScript.getAttribute('wsport');
-    var ws = new Ws(onMessage, '127.0.0.1', port);
+    var src = myScript.getAttribute('src').slice(0, -13);
+    var ws = new Ws(onMessage, src);
     var fn = {
         watch: function(func, before, after) {
             return function() {
@@ -154,7 +150,7 @@
     var env = window.wsConsole.env.os.name + ' '+ window.wsConsole.env.browser.name;
     var emitConsole = function(type) {
         return function() {
-            ws.send({flag: 'ws_console', type: type, env: env, data: [].slice.call(arguments)});
+            ws.send({console_type: type, env: env, data: [].slice.call(arguments)});
         }
     };
     var ws_console = {};
@@ -169,4 +165,4 @@
     window.onerror = function(e) {
         console.error(e);
     }
-})(window);
+})(window, io);

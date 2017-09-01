@@ -76,4 +76,4 @@ function startWeb(port) {
 
 getPort(startProxy, 8001);
 getPort(startWeb, 8002);
-getPort(startWs, 8003);
+// getPort(startWs, 8003);

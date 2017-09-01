@@ -1,12 +1,9 @@
 import store from '../store'
 
-export const onMessage = function(event) {
-    const data = typeof event.data === 'string' ? JSON.parse(event.data) : event.data
-    if(data.flag !== 'ws_console_server') return;
-    switch(data.kind) {
+export const onMessage = function(data) {
+    data = typeof data === 'string' ? JSON.parse(data) : data
+    switch(data.type) {
         case 'console':
-            delete data.flag;
-            delete data.kind;
             store.dispatch({
                 type: 'addConsItem',
                 item: data
@@ -15,15 +12,14 @@ export const onMessage = function(event) {
         case 'getRule':
             store.dispatch({
                 type: 'setMockList',
-                item: data.rule
+                data: data.data
             });
             break;
         case 'recorder':
-            delete data.flag;
-            delete data.kind;
+            delete data.type;
             store.dispatch({
                 type: 'addNetItem',
-                item: data
+                item: data.info
             });
             break;
         default:

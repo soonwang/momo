@@ -12,7 +12,7 @@ import ws from './ws/index'
 import {onMessage} from './message/index'
 
 Vue.use(ElementUI)
-Vue.use(ws, {port: 8003, onmessage: onMessage})
+Vue.use(ws, {port: 8002, onmessage: onMessage})
 Vue.config.productionTip = false
 Vue.prototype.$http = Axios
 

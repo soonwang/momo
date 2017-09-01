@@ -11,7 +11,7 @@ let mutations = {
         state.NetType = payload.type;
     },
     [types.SET_MOCK_LIST] (state, payload) {
-        state.MockList = payload.item
+        state.MockList = payload.data
     },
     [types.CLEAN_MOCK_LIST] (state, payload) {
         state.MockList = [];
