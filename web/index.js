@@ -25,6 +25,7 @@ const webServer = (function() {
     }));
     web.use(express.static(path.join(__dirname, '../public')));
     web.use(express.static(path.join(__dirname, '../resource')));
+    web.use(express.static(path.join(__dirname, '../dist')));
     web.use('/', routes(recorder));
 
     server.listen(port, function() {

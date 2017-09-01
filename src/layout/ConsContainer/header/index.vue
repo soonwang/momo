@@ -11,12 +11,12 @@
           <i class="el-icon-delete" @click="clear"></i>
       </el-tooltip>
   </div>
-  <el-dialog class="tips-dialog" :visible.sync="isShowDialog" top="30%" size="tiny">
-      <h3>使用console方法：</h3>
-      <span>1.在url后添加参数</span>
+  <el-dialog class="tips-dialog" title="Console" :visible.sync="isShowDialog" top="30%" size="tiny">
+      <p>1.在url后添加参数</p>
       <pre>?ws_console=true</pre>
-      <pre>例如：http://www.kaola.com?ws_console=true</pre>
-      <span>2.在页面中自行引入脚本</span>
+      <p>例如：</p>
+      <pre>http://www.kaola.com?ws_console=true</pre>
+      <p>2.在页面中自行引入脚本</p>
       <pre>//{{ServerInfo.ip}}:{{ServerInfo.webPort}}/ws_console.js</pre>
   </el-dialog>
 </div>
@@ -85,12 +85,12 @@ export default {
     line-height: 60px;
     color: rgb(191, 203, 217);
 }
-.tips-dialog .el-dialog__header {
+/*.tips-dialog .el-dialog__header {
     padding: 10px 10px 0;
-}
+}*/
 .tips-dialog pre {
     background: #eee;
-    padding: 10px;
+    padding: 5px;
     border-radius: 8px;
 }
 .f-mr10 {

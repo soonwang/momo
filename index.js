@@ -7,27 +7,30 @@ const {
 
 let win = null;
 
-app.on('ready', function() {
-    win = new BrowserWindow({
-        width: 1000,
-        height: 600
+function startApp(host, port) {
+    app.on('ready', function() {
+        win = new BrowserWindow({
+            width: 1200,
+            height: 800
+        });
+
+        win.loadURL('http://'+host+':'+port+'/');
+
+        win.on('closed', function() {
+            win = null;
+        });
     });
 
-    win.loadURL('http://localhost:8080');
-
-    win.on('closed', function() {
-        win = null;
+    app.on('activate', function() {
+        if(win === null) {
+            createWindow();
+        }
     });
-});
 
-app.on('activate', function() {
-    if(win === null) {
-        createWindow();
-    }
-});
-
-app.on('window-all-closed', function() {
-    if(process.plateform != 'darwin') {
-        app.quit();
-    }
-});
+    app.on('window-all-closed', function() {
+        if(process.plateform != 'darwin') {
+            app.quit();
+        }
+    });
+}
+Server(startApp)

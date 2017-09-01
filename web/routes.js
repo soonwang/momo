@@ -13,6 +13,9 @@ const routers = function(recorder) {
         router.get('/test', (req, res) => {
             res.render('test');
         });
+        router.get('/', (req, res) => {
+            res.sendFile('./../dist/index.html');
+        });
         router.get('/api/cleanNet', (req, res) => {
           recorder.clearRecords();
           res.json({

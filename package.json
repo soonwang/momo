@@ -10,7 +10,8 @@
     "start": "node build/dev-server.js",
     "build": "node build/build.js",
     "lint": "eslint --ext .js,.vue src",
-    "server": "supervisor ./server.js"
+    "server": "supervisor ./server.js",
+    "package": "electron-packager ./ momo --platform=darwin --arch=x64  --overwrite --icon=./static/logo.icns --electron-version=1.7.5 --ignore=node_modules/.bin --ignore=.git --ignore=node_modules/electron-* --out=release"
   },
   "dependencies": {
     "async": "^2.5.0",
@@ -38,8 +39,7 @@
     "vue": "^2.3.3",
     "vue-json-editor": "^1.2.0",
     "vue-router": "^2.6.0",
-    "vuex": "^2.3.1",
-    "ws": "^3.1.0"
+    "vuex": "^2.3.1"
   },
   "devDependencies": {
     "autoprefixer": "^7.1.2",
@@ -56,6 +56,7 @@
     "css-loader": "^0.28.0",
     "cssnano": "^3.10.0",
     "electron": "^1.7.5",
+    "electron-packager": "^9.0.0",
     "electron-rebuild": "^1.6.0",
     "eslint": "^3.19.0",
     "eslint-friendly-formatter": "^3.0.0",

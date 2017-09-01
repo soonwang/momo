@@ -1,7 +1,6 @@
 const NetworkService = require('./lib/network/index');
 const AnyProxy = require('./lib/proxy/index');
 const proxyRecorder = new AnyProxy.ProxyRecorder();
-const WsServer = require('./lib/ws/index');
 const getPort = require('./lib/util/index');
 const webServer = require('./web/index');
 const ipLib = require('ip');
@@ -32,16 +31,7 @@ function setGlobalMomo(port) {
     global.__momo = Object.assign({}, global.__momo, port);
 }
 setGlobalMomo({ip: ipLib.address()});
-//WebSocket start
-function startWs(port) {
-    const wsOptions = {
-        port: port || 8003
-    };
-    setGlobalMomo({wsPort: wsOptions.port});
-    const wss = new WsServer(wsOptions);
-    NetworkService.setWss(wss);
 
-}
 //AnyProxy start
 function startProxy(port) {
     const options = {
@@ -65,15 +55,21 @@ function startProxy(port) {
 }
 
 //webServer start
-function startWeb(port) {
-    const webOptions = {
-        port: port || 8002,
-        recorder: proxyRecorder
+function startWeb(cb) {
+    return function(port) {
+        const webOptions = {
+            port: port || 8002,
+            recorder: proxyRecorder
+        }
+        setGlobalMomo({webPort: webOptions.port});
+        webServer.start(webOptions);
+        cb(ipLib.address(), webOptions.port);
     }
-    setGlobalMomo({webPort: webOptions.port});
-    webServer.start(webOptions);
 }
 
-getPort(startProxy, 8001);
-getPort(startWeb, 8002);
-// getPort(startWs, 8003);
+
+function startServer(cb) {
+    getPort(startProxy, 8001);
+    getPort(startWeb(cb), 8002);
+}
+module.exports = startServer;
