@@ -11,7 +11,8 @@
     "build": "node build/build.js",
     "lint": "eslint --ext .js,.vue src",
     "server": "supervisor ./server.js",
-    "package": "electron-packager ./ momo --platform=darwin --arch=x64  --overwrite --icon=./static/logo.icns --electron-version=1.7.5 --ignore=node_modules/.bin --ignore=.git --ignore=node_modules/electron-* --out=release"
+    "package-mac": "electron-packager ./ momo --platform=darwin --arch=x64  --overwrite --icon=./static/logo.icns --electron-version=1.7.5 --ignore=node_modules/.bin --ignore=.git --ignore=node_modules/electron-* --ignore=src --out=release",
+    "package-win": "electron-packager ./ momo --platform=win32 --arch=x64  --overwrite --icon=./static/logo.ico --electron-version=1.7.5 --ignore=node_modules/.bin --ignore=.git --ignore=node_modules/electron-* --ignore=src --out=release"
   },
   "dependencies": {
     "async": "^2.5.0",
